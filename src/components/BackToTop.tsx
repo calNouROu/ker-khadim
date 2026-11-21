@@ -30,7 +30,7 @@ export default function BackToTop() {
       }
       aria-label="Retourner en haut de la page"
       title="Retour en haut"
-      className="fixed bottom-6 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-[#D5BD91] bg-[#101D35] text-2xl font-bold text-[#D5BD91] shadow-xl transition duration-300 hover:-translate-y-1 hover:bg-[#263D5B] sm:bottom-8 sm:right-8 sm:h-14 sm:w-14"
+      className="fixed bottom-[164px] right-5 z-[100] flex h-12 w-12 items-center justify-center rounded-full border border-[#B08D57] bg-gradient-to-br from-[#F5E6C8] to-[#C5A46D] text-2xl font-bold text-[#101D35] shadow-lg shadow-[#B08D57]/30 transition duration-300 hover:-translate-y-1 hover:scale-105 hover:from-[#FFF1D6] hover:to-[#D5BD91]"
     >
       ↑
     </button>

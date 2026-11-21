@@ -9,7 +9,7 @@ export default function HomeButton() {
       href="/"
       aria-label="Retour à l'accueil"
       title="Accueil"
-      className="fixed bottom-6 left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-[#D5BD91] bg-[#101D35] text-[#D5BD91] shadow-xl transition duration-300 hover:-translate-y-1 hover:bg-[#263D5B] sm:bottom-8 sm:left-8 sm:h-14 sm:w-14"
+      className="fixed bottom-[92px] right-5 z-[100] flex h-12 w-12 items-center justify-center rounded-full border border-[#B08D57] bg-gradient-to-br from-[#F5E6C8] to-[#C5A46D] text-[#101D35] shadow-lg shadow-[#B08D57]/30 transition duration-300 hover:-translate-y-1 hover:scale-105 hover:from-[#FFF1D6] hover:to-[#D5BD91]"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

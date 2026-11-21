@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLayoutEffect, useSyncExternalStore } from "react";
@@ -62,7 +63,7 @@ export default function ThemeToggle() {
       aria-pressed={theme === "dark"}
       title={nextLabel}
       onClick={toggleTheme}
-      className="fixed bottom-5 right-5 z-[100] inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#B08D57] bg-[#101D35] text-[#F5E6C8] shadow-lg transition hover:scale-105 hover:bg-[#263D5B] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D5BD91]"
+      className="fixed bottom-5 right-5 z-[100] inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#B08D57] bg-gradient-to-br from-[#F5E6C8] to-[#C5A46D] text-[#101D35] shadow-lg shadow-[#B08D57]/30 transition hover:scale-105 hover:from-[#FFF1D6] hover:to-[#D5BD91] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D5BD91]"
     >
       {theme === "dark" ? (
         <svg
