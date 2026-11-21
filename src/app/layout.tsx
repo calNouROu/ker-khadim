@@ -1,9 +1,12 @@
+
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
 import { CartProvider } from "@/lib/cart-context";
 import ThemeToggle from "@/components/ThemeToggle";
 import VisitorTracker from "@/components/VisitorTracker";
+import BackToTop from "@/components/BackToTop";
+import HomeButton from "@/components/HomeButton";
 import "./globals.css";
 import "./theme.css";
 
@@ -30,11 +33,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <CartProvider>
           {children}
           <VisitorTracker />
+          <BackToTop />
+          <HomeButton />
         </CartProvider>
         <ThemeToggle />
       </body>
     </html>
   );
 }
-
-
