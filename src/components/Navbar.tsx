@@ -1,9 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { useState } from "react";
 import CartLink from "@/components/CartLink";
-
 
 const navigation = [
   { label: "Accueil", href: "/" },
@@ -15,7 +15,6 @@ const navigation = [
   { label: "Contacter", href: "/contact" },
 ];
 
-
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -26,6 +25,8 @@ export default function Navbar() {
   return (
     <header className="site-navbar sticky top-0 z-50 border-b border-[#D5BD91]/30 bg-[#101D35] text-[#F8FAFC] shadow-sm shadow-black/10">
       <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
+
+        {/* LOGO */}
         <Link
           href="/"
           onClick={closeMenu}
@@ -37,6 +38,7 @@ export default function Navbar() {
           >
             KK
           </span>
+
           <span>
             <span className="site-navbar-brand-title block font-serif text-lg font-semibold tracking-[0.12em] text-[#F8FAFC]">
               KËR KHADIM
@@ -47,6 +49,7 @@ export default function Navbar() {
           </span>
         </Link>
 
+        {/* NAVIGATION DESKTOP */}
         <nav
           aria-label="Navigation principale"
           className="hidden items-center gap-5 lg:flex xl:gap-7"
@@ -62,14 +65,43 @@ export default function Navbar() {
           ))}
         </nav>
 
+        {/* ACTIONS */}
         <div className="flex shrink-0 items-center gap-3 sm:gap-4">
+
+          {/* ICONE VIDEO */}
+          <Link
+            href="/videos"
+            aria-label="Voir les vidéos"
+            title="Vidéos"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D5BD91]/50 text-[#F5E6C8] transition hover:border-[#D5BD91] hover:bg-white/10 hover:text-[#D5BD91] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D5BD91]"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m10 9 5 3-5 3z" />
+            </svg>
+          </Link>
+
+          {/* PANIER */}
           <CartLink variant="dark" />
+
+          {/* COMPTE */}
           <Link
             href="/compte"
             className="navbar-account-link hidden whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D5BD91] lg:inline-flex"
           >
             Mon compte
           </Link>
+
+          {/* MENU MOBILE */}
           <button
             type="button"
             aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
@@ -107,6 +139,8 @@ export default function Navbar() {
         </div>
       </div>
 
+
+      {/* MENU MOBILE */}
       {menuOpen && (
         <nav
           id="mobile-navigation"
@@ -128,6 +162,7 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+
             <li className="pt-3">
               <Link
                 href="/compte"
