@@ -381,25 +381,6 @@ export default async function Home({
               savoir et de spiritualité.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link
-                href="/ouvrages"
-                className="home-explore-button inline-flex min-h-12 items-center justify-center rounded-full bg-[#D5BD91] px-7 py-3 text-sm font-bold shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#F5E6C8]"
-              >
-                Explorer la bibliothèque
-                <span aria-hidden="true" className="ml-2">
-                  →
-                </span>
-              </Link>
-
-              <Link
-                href="#bibliotheque"
-                className="home-hero-secondary-button inline-flex min-h-12 items-center justify-center rounded-full border px-7 py-3 text-sm font-semibold transition"
-              >
-                Voir les ouvrages
-              </Link>
-            </div>
-
             <p className="home-hero-slogan mt-8 border-l-2 border-[#D5BD91] pl-3 text-sm italic">
               {SLOGAN}
             </p>
@@ -446,6 +427,25 @@ export default async function Home({
             >
               Parcourir tous les ouvrages
               <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+
+          <div className="mb-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link
+              href="/ouvrages"
+              className="home-explore-button inline-flex min-h-12 items-center justify-center rounded-full bg-[#D5BD91] px-7 py-3 text-sm font-bold text-[#101D35] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#E8D4AE]"
+            >
+              Explorer la bibliothèque
+              <span aria-hidden="true" className="ml-2">
+                →
+              </span>
+            </Link>
+
+            <Link
+              href="#bibliotheque"
+              className="home-hero-secondary-button inline-flex min-h-12 items-center justify-center rounded-full border border-[#D5BD91] px-7 py-3 text-sm font-semibold text-[#101D35] transition hover:bg-white"
+            >
+              Voir les ouvrages
             </Link>
           </div>
 
