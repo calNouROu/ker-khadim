@@ -364,7 +364,7 @@ export default async function Home({
               Bibliothèque de savoir & de transmission
             </p>
 
-            <p className="home-hero-eyebrow mt-6 text-[10px] font-bold uppercase tracking-[0.24em]">
+            <p className="home-hero-eyebrow mt-6 hidden text-[10px] font-bold uppercase tracking-[0.24em] sm:block">
               KËR KHADIM · LES ÉCRITS DE SERIGNE TOUBA
             </p>
 
@@ -375,7 +375,7 @@ export default async function Home({
               </span>
             </h1>
 
-            <p className="home-hero-description mt-6 max-w-xl text-base leading-7 sm:text-lg sm:leading-8">
+            <p className="home-hero-description mt-6 hidden max-w-xl text-base leading-7 sm:block sm:text-lg sm:leading-8">
               Retrouvez les Xassidas et les ouvrages de Cheikh Ahmadou
               Bamba, sélectionnés pour faire vivre un patrimoine de
               savoir et de spiritualité.
