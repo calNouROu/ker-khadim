@@ -59,12 +59,12 @@ export default function Sidebar() {
 
   const renderNavigation = () => (
     <>
-      <div className="mb-8 border-b border-white/10 pb-6">
-        <h2 className="text-2xl font-bold text-[#D8B46A]">
+      <div className="mb-8 border-b border-[#D5BD91]/20 pb-6">
+        <h2 className="text-2xl font-bold tracking-wide text-[#D5BD91]">
           KËR KHADIM
         </h2>
-        <p className="mt-1 text-xs text-white/50">
-          Administration
+        <p className="mt-1 text-xs text-slate-400">
+          Espace d'administration
         </p>
       </div>
 
@@ -79,10 +79,11 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center rounded-xl px-3 py-3 text-sm font-medium transition-all ${
+              aria-current={isActive ? "page" : undefined}
+              className={`flex items-center rounded-xl border px-3 py-3 text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? "bg-[#D8B46A] text-[#4B3022] shadow-md"
-                  : "text-[#F8F0E4] hover:bg-white/10"
+                  ? "border-[#D5BD91]/40 bg-[#D5BD91] text-[#101D35] shadow-lg"
+                  : "border-transparent text-slate-300 hover:border-[#D5BD91]/20 hover:bg-white/10 hover:text-[#D5BD91]"
               }`}
             >
               {item.icon}
@@ -92,10 +93,10 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <footer className="border-t border-white/10 pt-5 text-xs text-white/50">
+      <footer className="border-t border-[#D5BD91]/20 pt-5 text-xs text-slate-400">
         <Link
           href="/"
-          className="mb-5 flex items-center gap-2 rounded-lg px-3 py-3 text-sm font-medium text-[#F8F0E4] transition hover:bg-white/10"
+          className="mb-5 flex items-center gap-2 rounded-lg px-3 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-[#D5BD91]"
         >
           <ArrowLeftIcon className="h-4 w-4" />
           Retourner au site
@@ -109,17 +110,17 @@ export default function Sidebar() {
   return (
     <>
       {/* SIDEBAR ORDINATEUR */}
-      <aside className="hidden h-screen w-64 shrink-0 flex-col bg-[#4B3022] p-4 text-[#F8F0E4] md:flex md:sticky md:top-0">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#D5BD91]/15 bg-[#101D35] p-4 text-white md:flex">
         {renderNavigation()}
       </aside>
 
       {/* BARRE MOBILE */}
-      <div className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between border-b border-[#E8DDCE] bg-[#FFFEFA] px-4 shadow-sm md:hidden">
+      <div className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between border-b border-[#D5BD91]/30 bg-[#101D35] px-4 shadow-lg md:hidden">
         <div>
-          <p className="text-lg font-bold text-[#8A6A39]">
+          <p className="text-lg font-bold text-[#D5BD91]">
             KËR KHADIM
           </p>
-          <p className="text-[10px] text-[#88796B]">
+          <p className="text-[10px] text-slate-300">
             Administration
           </p>
         </div>
@@ -129,7 +130,7 @@ export default function Sidebar() {
           onClick={() => setOpen(true)}
           aria-label="Ouvrir le menu"
           aria-expanded={open}
-          className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#4B3022] text-[#D8B46A] shadow-sm"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#D5BD91]/30 bg-[#263D5B] text-[#D5BD91] shadow-sm"
         >
           <Bars3Icon className="h-6 w-6" />
         </button>
@@ -141,7 +142,7 @@ export default function Sidebar() {
           type="button"
           aria-label="Fermer le menu"
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-50 bg-black/50 md:hidden"
+          className="fixed inset-0 z-50 bg-black/60 md:hidden"
         />
       )}
 
@@ -149,12 +150,12 @@ export default function Sidebar() {
       <aside
         aria-label="Navigation administrateur"
         aria-hidden={!open}
-        className={`fixed inset-y-0 left-0 z-[60] flex w-[280px] max-w-[85vw] flex-col overflow-y-auto bg-[#4B3022] p-4 text-[#F8F0E4] shadow-2xl transition-transform duration-300 md:hidden ${
+        className={`fixed inset-y-0 left-0 z-[60] flex w-[280px] max-w-[85vw] flex-col overflow-y-auto border-r border-[#D5BD91]/20 bg-[#101D35] p-4 text-white shadow-2xl transition-transform duration-300 md:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="mb-5 flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-widest text-[#D8B46A]">
+          <span className="text-xs font-semibold tracking-widest text-[#D5BD91]">
             MENU ADMIN
           </span>
 
@@ -162,7 +163,7 @@ export default function Sidebar() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Fermer"
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-[#D5BD91]"
           >
             <XMarkIcon className="h-6 w-6" />
           </button>

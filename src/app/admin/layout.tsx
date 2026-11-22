@@ -35,29 +35,30 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen w-full min-w-0 overflow-x-hidden bg-[#FFFEFA]">
-
-      {/* Navigation administrateur */}
+    <div
+      data-admin="true"
+      className="
+        admin-layout
+        flex min-h-screen w-full min-w-0
+        overflow-x-hidden
+        bg-[#FFFEFA]
+        text-[#101D35]
+      "
+    >
       <Sidebar />
 
-      {/* Contenu principal */}
       <main
         className="
-          min-h-screen
-          min-w-0
-          w-full
-          flex-1
+          admin-main
+          min-h-screen min-w-0 w-full flex-1
           overflow-x-hidden
-          px-3
-          pb-6
-          pt-20
+          px-3 pb-6 pt-20
           sm:px-5
           md:p-6
         "
       >
         {children}
       </main>
-
     </div>
   );
 }

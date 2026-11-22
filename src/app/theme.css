@@ -891,3 +891,90 @@ html[data-theme="dark"] main.min-h-screen {
   background-size: 180% 180%, 180% 180%, 100% 100%, 300px 300px;
   animation: page-background-drift 90s ease-in-out infinite alternate;
 }
+
+
+/* =====================================
+   KER KHADIM - ADMINISTRATION
+   Thème sombre bleu nuit et or
+===================================== */
+
+[data-admin="true"] {
+  --admin-bg: #101d35;
+  --admin-card: #152a45;
+  --admin-border: #334b68;
+  --admin-text: #f8fafc;
+  --admin-muted: #cbd5e1;
+  --admin-gold: #d5bd91;
+
+  background-color: var(--admin-bg) !important;
+  color: var(--admin-text);
+}
+
+[data-admin="true"] .admin-main {
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+[data-admin="true"] :is(h1, h2, h3, h4, h5, h6) {
+  color: #f8fafc;
+}
+
+[data-admin="true"] :is(
+  .bg-white,
+  .bg-\[\#FFFEFA\],
+  .bg-\[\#FFFCF7\],
+  .bg-\[\#F8F5EF\],
+  .bg-\[\#FAF6EF\]
+) {
+  background-color: var(--admin-card) !important;
+  color: var(--admin-text) !important;
+  border-color: var(--admin-border);
+}
+
+[data-admin="true"] :is(
+  .text-black,
+  .text-gray-800,
+  .text-gray-900,
+  .text-slate-900
+) {
+  color: var(--admin-text) !important;
+}
+
+[data-admin="true"] :is(
+  .text-gray-400,
+  .text-gray-500,
+  .text-gray-600,
+  .text-slate-500,
+  .text-slate-600
+) {
+  color: var(--admin-muted) !important;
+}
+
+[data-admin="true"] :is(input, textarea, select) {
+  background-color: #162237 !important;
+  border-color: #475569 !important;
+  color: #f8fafc !important;
+}
+
+[data-admin="true"] input::placeholder,
+[data-admin="true"] textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+[data-admin="true"] table {
+  color: var(--admin-text);
+  border-color: var(--admin-border);
+}
+
+[data-admin="true"] :is(th, td) {
+  border-color: var(--admin-border);
+}
+
+[data-admin="true"] button:focus-visible,
+[data-admin="true"] a:focus-visible,
+[data-admin="true"] input:focus-visible,
+[data-admin="true"] select:focus-visible {
+  outline: 2px solid var(--admin-gold);
+  outline-offset: 2px;
+}
+
