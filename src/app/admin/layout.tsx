@@ -1,5 +1,6 @@
+
 import type { ReactNode } from "react";
-import Sidebar from '@/components/admin/Sidebar';
+import Sidebar from "@/components/admin/Sidebar";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 
@@ -11,12 +12,18 @@ export default async function AdminLayout({
   children: ReactNode;
 }) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  // Vérification de la connexion
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
   if (authError || !user) {
     redirect("/admin-login");
   }
 
+  // Vérification du rôle administrateur
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("role")
@@ -28,9 +35,29 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#FFFEFA]">
+    <div className="flex min-h-screen w-full min-w-0 overflow-x-hidden bg-[#FFFEFA]">
+
+      {/* Navigation administrateur */}
       <Sidebar />
-      <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+
+      {/* Contenu principal */}
+      <main
+        className="
+          min-h-screen
+          min-w-0
+          w-full
+          flex-1
+          overflow-x-hidden
+          px-3
+          pb-6
+          pt-20
+          sm:px-5
+          md:p-6
+        "
+      >
+        {children}
+      </main>
+
     </div>
   );
 }
