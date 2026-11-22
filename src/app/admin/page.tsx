@@ -24,19 +24,21 @@ function StatCard({
   icon: ReactNode;
 }) {
   return (
-    <div className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 shadow-sm sm:p-5">
+    <div className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 shadow-sm transition-colors dark:border-[#293D5C] dark:bg-[#172B4D] sm:p-5">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-medium text-[#786B5D] sm:text-sm">
+        <p className="text-xs font-medium text-[#786B5D] dark:text-[#D0D9E7] sm:text-sm">
           {title}
         </p>
-        <span className="shrink-0 text-[#8A6A39]">{icon}</span>
+        <span className="shrink-0 text-[#8A6A39] dark:text-[#E2BD78]">
+          {icon}
+        </span>
       </div>
 
-      <p className="mt-3 break-words text-xl font-bold text-[#4B3022] sm:mt-4 sm:text-2xl">
+      <p className="mt-3 break-words text-xl font-bold text-[#4B3022] dark:text-white sm:mt-4 sm:text-2xl">
         {value}
       </p>
 
-      <p className="mt-1 text-[10px] leading-relaxed text-[#A18E7B] sm:text-xs">
+      <p className="mt-1 text-[10px] leading-relaxed text-[#8B7B6B] dark:text-[#AEBBD0] sm:text-xs">
         {description}
       </p>
     </div>
@@ -107,25 +109,25 @@ export default async function AdminDashboard() {
   ].filter((message): message is string => Boolean(message));
 
   return (
-    <main className="min-h-screen w-full min-w-0 overflow-x-hidden bg-[#FFFEFA] p-3 sm:p-5 lg:p-6">
+    <main className="min-h-screen w-full min-w-0 overflow-x-hidden bg-[#FFFEFA] p-3 text-[#4B3022] transition-colors dark:bg-[#0B1426] dark:text-white sm:p-5 lg:p-6">
 
       {/* EN-TÊTE */}
       <header className="mb-6 flex min-w-0 flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
-          <p className="text-xs font-semibold tracking-wider text-[#A18455] sm:text-sm">
+          <p className="text-xs font-semibold tracking-wider text-[#A18455] dark:text-[#E2BD78] sm:text-sm">
             KËR KHADIM / ADMINISTRATION
           </p>
 
-          <h1 className="mt-2 text-2xl font-bold text-[#4B3022] sm:text-3xl">
+          <h1 className="mt-2 text-2xl font-bold text-[#4B3022] dark:text-white sm:text-3xl">
             Tableau de bord
           </h1>
 
-          <p className="mt-1 text-xs text-[#88796B] sm:text-sm">
+          <p className="mt-1 text-xs text-[#88796B] dark:text-[#B0BCD0] sm:text-sm">
             Bienvenue dans votre espace de gestion.
           </p>
         </div>
 
-        <div className="w-fit max-w-full rounded-xl bg-[#4B3022] px-4 py-2.5 text-xs font-semibold text-[#F4D69B] sm:px-5 sm:py-3 sm:text-sm">
+        <div className="w-fit max-w-full rounded-xl bg-[#4B3022] px-4 py-2.5 text-xs font-semibold text-[#F4D69B] dark:bg-[#243957] dark:text-[#F4D69B] sm:px-5 sm:py-3 sm:text-sm">
           Administration KËR KHADIM
         </div>
       </header>
@@ -134,7 +136,7 @@ export default async function AdminDashboard() {
       {statisticErrors.length > 0 && (
         <div
           role="alert"
-          className="mb-6 break-words rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 sm:p-4 sm:text-sm"
+          className="mb-6 break-words rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200 sm:p-4 sm:text-sm"
         >
           <p className="font-semibold">
             Certaines statistiques n’ont pas pu être chargées.
@@ -183,7 +185,7 @@ export default async function AdminDashboard() {
 
       {/* VISITEURS */}
       <section className="mt-7 sm:mt-9">
-        <h2 className="mb-3 text-base font-bold text-[#4B3022] sm:mb-4 sm:text-lg">
+        <h2 className="mb-3 text-base font-bold text-[#4B3022] dark:text-white sm:mb-4 sm:text-lg">
           Visiteurs du site
         </h2>
 
@@ -213,77 +215,77 @@ export default async function AdminDashboard() {
       </section>
 
       {/* COMMANDES RÉCENTES */}
-      <section className="mt-7 overflow-hidden rounded-2xl border border-[#E8DDCE] bg-white shadow-sm sm:mt-9">
+      <section className="mt-7 overflow-hidden rounded-2xl border border-[#E8DDCE] bg-white shadow-sm transition-colors dark:border-[#293D5C] dark:bg-[#172B4D] sm:mt-9">
 
-        <div className="flex flex-col gap-3 border-b border-[#F0E9DF] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div className="flex flex-col gap-3 border-b border-[#F0E9DF] p-4 dark:border-[#344865] sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div>
-            <h2 className="text-base font-bold text-[#4B3022] sm:text-lg">
+            <h2 className="text-base font-bold text-[#4B3022] dark:text-white sm:text-lg">
               Commandes récentes
             </h2>
 
-            <p className="mt-1 text-xs text-[#9A8978] sm:text-sm">
+            <p className="mt-1 text-xs text-[#9A8978] dark:text-[#B0BCD0] sm:text-sm">
               Les cinq dernières commandes reçues
             </p>
           </div>
 
           <Link
             href="/admin/commandes"
-            className="w-full rounded-lg bg-[#4B3022] px-4 py-3 text-center text-xs font-semibold text-white transition hover:bg-[#684630] sm:w-auto sm:py-2 sm:text-sm"
+            className="w-full rounded-lg bg-[#4B3022] px-4 py-3 text-center text-xs font-semibold text-white transition hover:bg-[#684630] dark:bg-[#D2AD70] dark:text-[#17243B] dark:hover:bg-[#E5C58E] sm:w-auto sm:py-2 sm:text-sm"
           >
             Voir toutes les commandes
           </Link>
         </div>
 
-        {/* VERSION MOBILE : CARTES */}
+        {/* VERSION MOBILE */}
         <div className="space-y-3 p-3 sm:hidden">
           {orders.length > 0 ? (
             orders.map((order) => (
               <div
                 key={order.id}
-                className="rounded-xl border border-[#E8DDCE] bg-[#FFFEFA] p-3"
+                className="rounded-xl border border-[#E8DDCE] bg-[#FFFEFA] p-3 dark:border-[#344865] dark:bg-[#203656]"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="text-[10px] text-[#9A8978]">
+                    <p className="text-[10px] text-[#9A8978] dark:text-[#B0BCD0]">
                       CLIENT
                     </p>
 
-                    <p className="mt-1 break-words text-sm font-bold text-[#4B3022]">
+                    <p className="mt-1 break-words text-sm font-bold text-[#4B3022] dark:text-white">
                       {order.customer_name || "Client"}
                     </p>
                   </div>
 
-                  <span className="shrink-0 rounded-full bg-[#F5EBDD] px-2.5 py-1 text-[10px] font-semibold text-[#76532E]">
+                  <span className="shrink-0 rounded-full bg-[#F5EBDD] px-2.5 py-1 text-[10px] font-semibold text-[#76532E] dark:bg-[#3B4D68] dark:text-[#F4D69B]">
                     {order.status || "En attente"}
                   </span>
                 </div>
 
-                <div className="mt-3 flex flex-col gap-1 border-t border-[#F0E9DF] pt-3">
-                  <p className="text-xs text-[#88796B]">
+                <div className="mt-3 flex flex-col gap-1 border-t border-[#F0E9DF] pt-3 dark:border-[#405572]">
+                  <p className="text-xs text-[#88796B] dark:text-[#B0BCD0]">
                     Montant
                   </p>
 
-                  <p className="text-base font-bold text-[#8B6839]">
+                  <p className="text-base font-bold text-[#8B6839] dark:text-[#E2BD78]">
                     {formatFCFA(Number(order.total || 0))}
                   </p>
 
-                  <p className="mt-1 text-[10px] text-[#9A8978]">
+                  <p className="mt-1 text-[10px] text-[#9A8978] dark:text-[#AEBBD0]">
                     {formatDate(order.created_at)}
                   </p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="py-8 text-center text-sm text-[#9A8978]">
+            <p className="py-8 text-center text-sm text-[#9A8978] dark:text-[#B0BCD0]">
               Aucune commande pour le moment.
             </p>
           )}
         </div>
 
-        {/* VERSION ORDINATEUR : TABLEAU */}
+        {/* VERSION ORDINATEUR */}
         <div className="hidden overflow-x-auto sm:block">
           <table className="w-full text-left text-sm">
-            <thead className="bg-[#FAF6EF] text-[#786B5D]">
+            <thead className="bg-[#FAF6EF] text-[#786B5D] dark:bg-[#203656] dark:text-[#D0D9E7]">
               <tr>
                 <th className="px-5 py-4">Client</th>
                 <th className="px-5 py-4">Montant</th>
@@ -292,28 +294,28 @@ export default async function AdminDashboard() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-[#F0E9DF]">
+            <tbody className="divide-y divide-[#F0E9DF] dark:divide-[#344865]">
               {orders.length > 0 ? (
                 orders.map((order) => (
                   <tr
                     key={order.id}
-                    className="hover:bg-[#FFFCF7]"
+                    className="transition hover:bg-[#FFFCF7] dark:hover:bg-[#243D60]"
                   >
-                    <td className="px-5 py-4 font-medium text-[#4B3022]">
+                    <td className="px-5 py-4 font-medium text-[#4B3022] dark:text-white">
                       {order.customer_name || "Client"}
                     </td>
 
-                    <td className="px-5 py-4 font-semibold text-[#8B6839]">
+                    <td className="px-5 py-4 font-semibold text-[#8B6839] dark:text-[#E2BD78]">
                       {formatFCFA(Number(order.total || 0))}
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="rounded-full bg-[#F5EBDD] px-3 py-1 text-xs font-medium text-[#76532E]">
+                      <span className="rounded-full bg-[#F5EBDD] px-3 py-1 text-xs font-medium text-[#76532E] dark:bg-[#3B4D68] dark:text-[#F4D69B]">
                         {order.status || "En attente"}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-[#88796B]">
+                    <td className="px-5 py-4 text-[#88796B] dark:text-[#B0BCD0]">
                       {formatDate(order.created_at)}
                     </td>
                   </tr>
@@ -322,7 +324,7 @@ export default async function AdminDashboard() {
                 <tr>
                   <td
                     colSpan={4}
-                    className="px-5 py-10 text-center text-[#9A8978]"
+                    className="px-5 py-10 text-center text-[#9A8978] dark:text-[#B0BCD0]"
                   >
                     Aucune commande pour le moment.
                   </td>
@@ -335,7 +337,7 @@ export default async function AdminDashboard() {
 
       {/* ACCÈS RAPIDE */}
       <section className="mt-7 sm:mt-9">
-        <h2 className="mb-3 text-base font-bold text-[#4B3022] sm:mb-4 sm:text-lg">
+        <h2 className="mb-3 text-base font-bold text-[#4B3022] dark:text-white sm:mb-4 sm:text-lg">
           Accès rapide
         </h2>
 
@@ -343,60 +345,60 @@ export default async function AdminDashboard() {
 
           <Link
             href="/admin/ouvrages"
-            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md sm:p-5"
+            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md dark:border-[#293D5C] dark:bg-[#172B4D] dark:hover:bg-[#203656] sm:p-5"
           >
-            <BookOpenIcon className="h-6 w-6 text-[#8A6A39]" />
+            <BookOpenIcon className="h-6 w-6 text-[#8A6A39] dark:text-[#E2BD78]" />
 
-            <h3 className="mt-3 text-sm font-bold text-[#4B3022] sm:text-base">
+            <h3 className="mt-3 text-sm font-bold text-[#4B3022] dark:text-white sm:text-base">
               Gérer les ouvrages
             </h3>
 
-            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] sm:text-sm">
+            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] dark:text-[#B0BCD0] sm:text-sm">
               Ajouter, modifier et supprimer des ouvrages.
             </p>
           </Link>
 
           <Link
             href="/admin/accessoires"
-            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md sm:p-5"
+            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md dark:border-[#293D5C] dark:bg-[#172B4D] dark:hover:bg-[#203656] sm:p-5"
           >
-            <ShoppingBagIcon className="h-6 w-6 text-[#8A6A39]" />
+            <ShoppingBagIcon className="h-6 w-6 text-[#8A6A39] dark:text-[#E2BD78]" />
 
-            <h3 className="mt-3 text-sm font-bold text-[#4B3022] sm:text-base">
+            <h3 className="mt-3 text-sm font-bold text-[#4B3022] dark:text-white sm:text-base">
               Gérer les accessoires
             </h3>
 
-            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] sm:text-sm">
+            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] dark:text-[#B0BCD0] sm:text-sm">
               Ajouter, modifier et supprimer les accessoires.
             </p>
           </Link>
 
           <Link
             href="/admin/parfumerie"
-            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md sm:p-5"
+            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md dark:border-[#293D5C] dark:bg-[#172B4D] dark:hover:bg-[#203656] sm:p-5"
           >
-            <SparklesIcon className="h-6 w-6 text-[#8A6A39]" />
+            <SparklesIcon className="h-6 w-6 text-[#8A6A39] dark:text-[#E2BD78]" />
 
-            <h3 className="mt-3 text-sm font-bold text-[#4B3022] sm:text-base">
+            <h3 className="mt-3 text-sm font-bold text-[#4B3022] dark:text-white sm:text-base">
               Gérer la parfumerie
             </h3>
 
-            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] sm:text-sm">
+            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] dark:text-[#B0BCD0] sm:text-sm">
               Ajouter et organiser les parfums par catégorie.
             </p>
           </Link>
 
           <Link
             href="/admin/commandes"
-            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md sm:p-5"
+            className="min-w-0 rounded-2xl border border-[#E8DDCE] bg-white p-3 transition hover:shadow-md dark:border-[#293D5C] dark:bg-[#172B4D] dark:hover:bg-[#203656] sm:p-5"
           >
-            <ShoppingCartIcon className="h-6 w-6 text-[#8A6A39]" />
+            <ShoppingCartIcon className="h-6 w-6 text-[#8A6A39] dark:text-[#E2BD78]" />
 
-            <h3 className="mt-3 text-sm font-bold text-[#4B3022] sm:text-base">
+            <h3 className="mt-3 text-sm font-bold text-[#4B3022] dark:text-white sm:text-base">
               Gérer les commandes
             </h3>
 
-            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] sm:text-sm">
+            <p className="mt-1 text-[10px] leading-relaxed text-[#958474] dark:text-[#B0BCD0] sm:text-sm">
               Consulter et suivre les commandes.
             </p>
           </Link>
