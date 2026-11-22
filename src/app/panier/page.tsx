@@ -1,16 +1,11 @@
 
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useCart } from "@/lib/cart-context";
-
-type OrderConfirmation = {
-  orderId: string;
-  total: number;
-};
 
 export default function PanierPage() {
   const {
@@ -20,17 +15,12 @@ export default function PanierPage() {
     storageError,
     updateQuantity,
     removeItem,
-    clearCart,
   } = useCart();
 
   const [customerName, setCustomerName] = useState("");
   const [phone, setPhone] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
   const [message, setMessage] = useState("");
-  const [loginRequired, setLoginRequired] = useState(false);
-  const [orderConfirmation, setOrderConfirmation] =
-    useState<OrderConfirmation | null>(null);
-  const [submitting, setSubmitting] = useState(false);
 
   function confirmWhatsAppOrder() {
     setMessage("");
@@ -77,68 +67,11 @@ Merci de me confirmer la disponibilité et les modalités de livraison.
 Cordialement.
 `;
 
-    // Nouveau numéro WhatsApp de KËR KHADIM
     const whatsappUrl = `https://wa.me/221789846529?text=${encodeURIComponent(
       whatsappMessage
     )}`;
 
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  }
-
-  async function submitOrder(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitting(true);
-    setMessage("");
-    setLoginRequired(false);
-
-    try {
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map(({ productId, quantity }) => ({
-            productId,
-            quantity,
-          })),
-          customerName,
-          phone,
-          shippingAddress,
-        }),
-      });
-
-      const result = (await response.json()) as {
-        error?: string;
-        code?: string;
-        orderId?: string;
-        total?: number;
-      };
-
-      if (!response.ok) {
-        setMessage(result.error || "La commande n'a pas pu être enregistrée.");
-        setLoginRequired(result.code === "AUTH_REQUIRED");
-        return;
-      }
-
-      if (
-        typeof result.orderId !== "string" ||
-        typeof result.total !== "number"
-      ) {
-        setMessage("La réponse du serveur est invalide.");
-        return;
-      }
-
-      setOrderConfirmation({
-        orderId: result.orderId,
-        total: result.total,
-      });
-
-      clearCart();
-    } catch (error) {
-      console.error("Impossible d'envoyer la commande.", error);
-      setMessage("Une erreur réseau a empêché l'envoi de la commande.");
-    } finally {
-      setSubmitting(false);
-    }
   }
 
   return (
@@ -156,39 +89,7 @@ Cordialement.
           </p>
         )}
 
-        {orderConfirmation ? (
-          <div className="mt-8 rounded-2xl border border-[#D5BD91] bg-white p-8 shadow-sm">
-            <h2 className="text-xl font-bold text-[#101D35]">
-              Commande enregistrée
-            </h2>
-
-            <p className="mt-3 text-gray-700">
-              Référence :{" "}
-              <span className="font-semibold">
-                {orderConfirmation.orderId}
-              </span>
-            </p>
-
-            <p className="mt-2 text-gray-700">
-              Total confirmé :{" "}
-              <span className="font-semibold">
-                {Number(orderConfirmation.total).toLocaleString("fr-FR")} FCFA
-              </span>
-            </p>
-
-            <p className="mt-4 text-sm text-gray-600">
-              Le paiement n’a pas été effectué. Nous vous contacterons pour
-              confirmer la livraison.
-            </p>
-
-            <Link
-              href="/"
-              className="mt-6 inline-block font-semibold text-[#8A6A39] hover:underline"
-            >
-              Retourner à la boutique
-            </Link>
-          </div>
-        ) : !isReady ? (
+        {!isReady ? (
           <p className="mt-8 text-gray-600">
             Chargement du panier...
           </p>
@@ -285,16 +186,13 @@ Cordialement.
               ))}
             </ul>
 
-            <form
-              onSubmit={submitOrder}
-              className="h-fit space-y-4 rounded-xl border border-[#E9DFC9] bg-white p-5 shadow-sm sm:p-6"
-            >
+            <div className="h-fit space-y-4 rounded-xl border border-[#E9DFC9] bg-white p-5 shadow-sm sm:p-6">
               <h2 className="text-xl font-bold text-[#101D35]">
                 Livraison et commande
               </h2>
 
               <p className="text-sm text-gray-600">
-                Renseignez vos coordonnées pour envoyer votre commande par
+                Renseignez vos coordonnées pour confirmer votre commande par
                 WhatsApp.
               </p>
 
@@ -398,32 +296,7 @@ Cordialement.
               <p className="text-center text-xs text-gray-500">
                 WhatsApp s'ouvrira avec votre commande prête à être envoyée.
               </p>
-
-              <div className="border-t border-[#E9DFC9] pt-4">
-                <p className="mb-3 text-center text-xs text-gray-500">
-                  Ou enregistrer la commande sur le site (connexion requise).
-                </p>
-
-                {loginRequired && (
-                  <Link
-                    href="/connexion"
-                    className="mb-3 block text-sm font-semibold text-[#8A6A39] underline"
-                  >
-                    Se connecter ou créer un compte pour continuer
-                  </Link>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={submitting || items.length === 0}
-                  className="w-full rounded-lg bg-[#101D35] p-3 font-bold text-white hover:bg-[#263D5B] disabled:opacity-50"
-                >
-                  {submitting
-                    ? "Enregistrement..."
-                    : "Enregistrer sur le site"}
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         )}
       </section>
