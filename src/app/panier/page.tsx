@@ -10,7 +10,6 @@ import { useCart } from "@/lib/cart-context";
 export default function PanierPage() {
   const {
     items,
-    total,
     isReady,
     storageError,
     updateQuantity,
@@ -26,16 +25,29 @@ export default function PanierPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
 
-  // Calcul du total avec les quantités actuellement saisies.
+  // Récupérer la quantité à utiliser pour chaque article.
+  function getItemQuantity(productId: string, originalQuantity: number, stock: number) {
+    const value = quantityInputs[productId];
+
+    if (
+      value !== undefined &&
+      value !== "" &&
+      Number.isInteger(Number(value)) &&
+      Number(value) > 0
+    ) {
+      return Math.min(Number(value), stock);
+    }
+
+    return originalQuantity;
+  }
+
+  // Calcul du total selon les quantités saisies.
   const displayedTotal = items.reduce((sum, item) => {
-    const inputValue = quantityInputs[item.productId];
-    const quantity =
-      inputValue !== undefined &&
-      inputValue !== "" &&
-      Number.isInteger(Number(inputValue)) &&
-      Number(inputValue) > 0
-        ? Math.min(Number(inputValue), item.stock)
-        : item.quantity;
+    const quantity = getItemQuantity(
+      item.productId,
+      item.quantity,
+      item.stock
+    );
 
     return sum + item.price * quantity;
   }, 0);
@@ -62,7 +74,6 @@ export default function PanierPage() {
       const value = quantityInputs[item.productId];
 
       if (value === undefined) return false;
-
       if (value === "") return true;
 
       const quantity = Number(value);
@@ -233,137 +244,143 @@ Cordialement.
         ) : (
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
             <ul className="space-y-4">
-              {items.map((item) => (
-                <li
-                  key={item.productId}
-                  className="flex gap-3 rounded-xl border border-[#E9DFC9] bg-white p-3 shadow-sm sm:gap-4 sm:p-4"
-                >
-                  {item.imageUrl ? (
-                    <div className="relative h-28 w-20 shrink-0 overflow-hidden rounded bg-[#F5E6C8]">
-                      <Image
-                        src={item.imageUrl}
-                        alt={`Couverture de ${item.title}`}
-                        fill
-                        sizes="80px"
-                        className="object-cover"
+              {items.map((item) => {
+                const currentQuantity = getItemQuantity(
+                  item.productId,
+                  item.quantity,
+                  item.stock
+                );
+
+                return (
+                  <li
+                    key={item.productId}
+                    className="flex gap-3 rounded-xl border border-[#E9DFC9] bg-white p-3 shadow-sm sm:gap-4 sm:p-4"
+                  >
+                    {item.imageUrl ? (
+                      <div className="relative h-28 w-20 shrink-0 overflow-hidden rounded bg-[#F5E6C8]">
+                        <Image
+                          src={item.imageUrl}
+                          alt={`Couverture de ${item.title}`}
+                          fill
+                          sizes="80px"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : item.videoUrl ? (
+                      <video
+                        src={item.videoUrl}
+                        aria-label={`Vidéo de couverture de ${item.title}`}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="h-28 w-20 shrink-0 rounded bg-[#F5E6C8] object-cover"
                       />
-                    </div>
-                  ) : item.videoUrl ? (
-                    <video
-                      src={item.videoUrl}
-                      aria-label={`Vidéo de couverture de ${item.title}`}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      className="h-28 w-20 shrink-0 rounded bg-[#F5E6C8] object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-28 w-20 shrink-0 items-center justify-center rounded bg-[#F5E6C8] text-center text-xs text-[#101D35]">
-                      Aucun visuel
-                    </div>
-                  )}
+                    ) : (
+                      <div className="flex h-28 w-20 shrink-0 items-center justify-center rounded bg-[#F5E6C8] text-center text-xs text-[#101D35]">
+                        Aucun visuel
+                      </div>
+                    )}
 
-                  <div className="min-w-0 flex-1">
-                    <Link
-                      href={`/livres/${item.slug}`}
-                      className="font-semibold text-[#101D35] hover:underline"
-                    >
-                      {item.title}
-                    </Link>
+                    <div className="min-w-0 flex-1">
+                      <Link
+                        href={`/livres/${item.slug}`}
+                        className="font-semibold text-[#101D35] hover:underline"
+                      >
+                        {item.title}
+                      </Link>
 
-                    <p className="mt-2 text-sm text-gray-600">
-                      {Number(item.price).toLocaleString("fr-FR")} FCFA
-                    </p>
+                      <p className="mt-2 text-sm text-gray-600">
+                        {Number(item.price).toLocaleString("fr-FR")} FCFA
+                      </p>
 
-                    <label className="mt-3 flex flex-wrap items-center gap-2 text-sm font-medium text-[#101D35]">
-                      Quantité
+                      <label className="mt-3 flex flex-wrap items-center gap-2 text-sm font-medium text-[#101D35]">
+                        Quantité
 
-                      <input
-                        type="number"
-                        inputMode="numeric"
-                        min={1}
-                        max={item.stock}
-                        value={
-                          quantityInputs[item.productId] ??
-                          String(item.quantity)
-                        }
-                        onChange={(event) => {
-                          const value = event.target.value;
+                        <input
+                          type="number"
+                          inputMode="numeric"
+                          min={1}
+                          max={item.stock}
+                          value={
+                            quantityInputs[item.productId] ??
+                            String(item.quantity)
+                          }
+                          onFocus={() => {
+                            // Vider le champ pour permettre une nouvelle saisie.
+                            setQuantityInputs((previous) => ({
+                              ...previous,
+                              [item.productId]: "",
+                            }));
+                          }}
+                          onChange={(event) => {
+                            const value = event.target.value;
 
-                          if (!/^\d*$/.test(value)) return;
+                            if (!/^\d*$/.test(value)) return;
 
-                          setQuantityInputs((previous) => ({
-                            ...previous,
-                            [item.productId]: value,
-                          }));
-                        }}
-                        onBlur={() => {
-                          const value = quantityInputs[item.productId];
+                            setQuantityInputs((previous) => ({
+                              ...previous,
+                              [item.productId]: value,
+                            }));
+                          }}
+                          onBlur={() => {
+                            const value = quantityInputs[item.productId];
 
-                          if (value === undefined) return;
+                            if (value === undefined) return;
 
-                          const parsed = Number(value);
+                            // Si le champ est vide, conserver l'ancienne quantité.
+                            if (
+                              value === "" ||
+                              !Number.isInteger(Number(value)) ||
+                              Number(value) < 1
+                            ) {
+                              setQuantityInputs((previous) => {
+                                const updated = { ...previous };
+                                delete updated[item.productId];
+                                return updated;
+                              });
 
-                          if (
-                            value === "" ||
-                            !Number.isInteger(parsed) ||
-                            parsed < 1
-                          ) {
+                              return;
+                            }
+
+                            // Ne pas dépasser le stock disponible.
+                            const finalQuantity = Math.min(
+                              Number(value),
+                              item.stock
+                            );
+
+                            updateQuantity(item.productId, finalQuantity);
+
                             setQuantityInputs((previous) => {
                               const updated = { ...previous };
                               delete updated[item.productId];
                               return updated;
                             });
-                            return;
-                          }
+                          }}
+                          className="w-24 rounded-lg border border-[#D5BD91] p-2 text-center font-semibold text-[#101D35] outline-none focus:border-[#101D35] focus:ring-2 focus:ring-[#D5BD91]"
+                        />
+                      </label>
 
-                          const finalQuantity = Math.min(
-                            parsed,
-                            item.stock
-                          );
+                      <p className="mt-1 text-xs text-gray-500">
+                        Stock disponible : {item.stock}
+                      </p>
 
-                          updateQuantity(item.productId, finalQuantity);
+                      <button
+                        type="button"
+                        onClick={() => removeItem(item.productId)}
+                        className="mt-3 text-sm text-red-700 hover:underline"
+                      >
+                        Supprimer
+                      </button>
+                    </div>
 
-                          setQuantityInputs((previous) => {
-                            const updated = { ...previous };
-                            delete updated[item.productId];
-                            return updated;
-                          });
-                        }}
-                        className="w-24 rounded-lg border border-[#D5BD91] p-2 text-center font-semibold text-[#101D35] outline-none focus:border-[#101D35] focus:ring-2 focus:ring-[#D5BD91]"
-                      />
-                    </label>
-
-                    <p className="mt-1 text-xs text-gray-500">
-                      Stock disponible : {item.stock}
+                    <p className="shrink-0 text-right text-sm font-semibold text-[#101D35]">
+                      {(item.price * currentQuantity).toLocaleString("fr-FR")} FCFA
                     </p>
-
-                    <button
-                      type="button"
-                      onClick={() => removeItem(item.productId)}
-                      className="mt-3 text-sm text-red-700 hover:underline"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-
-                  <p className="shrink-0 text-right text-sm font-semibold text-[#101D35]">
-                    {(
-                      item.price *
-                      (quantityInputs[item.productId] !== undefined &&
-                      quantityInputs[item.productId] !== "" &&
-                      Number(quantityInputs[item.productId]) > 0
-                        ? Math.min(
-                            Number(quantityInputs[item.productId]),
-                            item.stock
-                          )
-                        : item.quantity)
-                    ).toLocaleString("fr-FR")} FCFA
-                  </p>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="h-fit space-y-4 rounded-xl border border-[#E9DFC9] bg-white p-5 shadow-sm sm:p-6">
