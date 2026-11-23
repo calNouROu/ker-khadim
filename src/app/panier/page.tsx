@@ -26,12 +26,28 @@ export default function PanierPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
 
+  // Calcul du total avec les quantités actuellement saisies.
+  const displayedTotal = items.reduce((sum, item) => {
+    const inputValue = quantityInputs[item.productId];
+    const quantity =
+      inputValue !== undefined &&
+      inputValue !== "" &&
+      Number.isInteger(Number(inputValue)) &&
+      Number(inputValue) > 0
+        ? Math.min(Number(inputValue), item.stock)
+        : item.quantity;
+
+    return sum + item.price * quantity;
+  }, 0);
+
   async function confirmWhatsAppOrder() {
     setMessage("");
     setIsSuccess(false);
 
     if (!customerName.trim() || !phone.trim() || !shippingAddress.trim()) {
-      setMessage("Veuillez remplir votre nom, votre téléphone et votre adresse avant de continuer.");
+      setMessage(
+        "Veuillez remplir votre nom, votre téléphone et votre adresse avant de continuer."
+      );
       return;
     }
 
@@ -47,6 +63,8 @@ export default function PanierPage() {
 
       if (value === undefined) return false;
 
+      if (value === "") return true;
+
       const quantity = Number(value);
 
       return (
@@ -57,14 +75,18 @@ export default function PanierPage() {
     });
 
     if (hasInvalidQuantity) {
-      setMessage("Veuillez vérifier les quantités saisies avant de commander.");
+      setMessage(
+        "Veuillez saisir une quantité valide pour chaque livre avant de commander."
+      );
       return;
     }
 
     const whatsappWindow = window.open("about:blank", "_blank");
 
     if (!whatsappWindow) {
-      setMessage("Veuillez autoriser les fenêtres contextuelles pour continuer.");
+      setMessage(
+        "Veuillez autoriser les fenêtres contextuelles pour continuer."
+      );
       return;
     }
 
@@ -139,10 +161,10 @@ Cordialement.
       const whatsappUrl =
         `https://wa.me/221789846529?text=${encodeURIComponent(whatsappMessage)}`;
 
-      // Rediriger la fenêtre vers WhatsApp.
+      // Ouvrir WhatsApp.
       whatsappWindow.location.href = whatsappUrl;
 
-      // Vider entièrement le panier après le succès de l'enregistrement.
+      // Vider entièrement le panier après l'enregistrement réussi.
       clearCart();
 
       // Effacer les quantités temporaires.
@@ -284,12 +306,25 @@ Cordialement.
 
                           const parsed = Number(value);
 
-                          if (Number.isInteger(parsed) && parsed > 0) {
-                            updateQuantity(
-                              item.productId,
-                              Math.min(parsed, item.stock)
-                            );
+                          if (
+                            value === "" ||
+                            !Number.isInteger(parsed) ||
+                            parsed < 1
+                          ) {
+                            setQuantityInputs((previous) => {
+                              const updated = { ...previous };
+                              delete updated[item.productId];
+                              return updated;
+                            });
+                            return;
                           }
+
+                          const finalQuantity = Math.min(
+                            parsed,
+                            item.stock
+                          );
+
+                          updateQuantity(item.productId, finalQuantity);
 
                           setQuantityInputs((previous) => {
                             const updated = { ...previous };
@@ -315,7 +350,17 @@ Cordialement.
                   </div>
 
                   <p className="shrink-0 text-right text-sm font-semibold text-[#101D35]">
-                    {(item.price * item.quantity).toLocaleString("fr-FR")} FCFA
+                    {(
+                      item.price *
+                      (quantityInputs[item.productId] !== undefined &&
+                      quantityInputs[item.productId] !== "" &&
+                      Number(quantityInputs[item.productId]) > 0
+                        ? Math.min(
+                            Number(quantityInputs[item.productId]),
+                            item.stock
+                          )
+                        : item.quantity)
+                    ).toLocaleString("fr-FR")} FCFA
                   </p>
                 </li>
               ))}
@@ -394,7 +439,7 @@ Cordialement.
                   <span>Total estimé</span>
 
                   <span>
-                    {total.toLocaleString("fr-FR")} FCFA
+                    {displayedTotal.toLocaleString("fr-FR")} FCFA
                   </span>
                 </p>
 
