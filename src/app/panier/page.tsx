@@ -25,8 +25,12 @@ export default function PanierPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>({});
 
-  // Récupérer la quantité à utiliser pour chaque article.
-  function getItemQuantity(productId: string, originalQuantity: number, stock: number) {
+  // Quantité utilisée pour calculer le sous-total.
+  function getItemQuantity(
+    productId: string,
+    originalQuantity: number,
+    stock: number
+  ) {
     const value = quantityInputs[productId];
 
     if (
@@ -41,7 +45,7 @@ export default function PanierPage() {
     return originalQuantity;
   }
 
-  // Calcul du total selon les quantités saisies.
+  // Calcul du total avec les quantités saisies.
   const displayedTotal = items.reduce((sum, item) => {
     const quantity = getItemQuantity(
       item.productId,
@@ -56,7 +60,11 @@ export default function PanierPage() {
     setMessage("");
     setIsSuccess(false);
 
-    if (!customerName.trim() || !phone.trim() || !shippingAddress.trim()) {
+    if (
+      !customerName.trim() ||
+      !phone.trim() ||
+      !shippingAddress.trim()
+    ) {
       setMessage(
         "Veuillez remplir votre nom, votre téléphone et votre adresse avant de continuer."
       );
@@ -175,10 +183,9 @@ Cordialement.
       // Ouvrir WhatsApp.
       whatsappWindow.location.href = whatsappUrl;
 
-      // Vider entièrement le panier après l'enregistrement réussi.
+      // Vider le panier après l'enregistrement réussi.
       clearCart();
 
-      // Effacer les quantités temporaires.
       setQuantityInputs({});
 
       setMessage(
@@ -308,7 +315,7 @@ Cordialement.
                             String(item.quantity)
                           }
                           onFocus={() => {
-                            // Vider le champ pour permettre une nouvelle saisie.
+                            // Effacer le chiffre affiché au premier clic.
                             setQuantityInputs((previous) => ({
                               ...previous,
                               [item.productId]: "",
@@ -344,13 +351,16 @@ Cordialement.
                               return;
                             }
 
-                            // Ne pas dépasser le stock disponible.
+                            // Respecter le stock disponible.
                             const finalQuantity = Math.min(
                               Number(value),
                               item.stock
                             );
 
-                            updateQuantity(item.productId, finalQuantity);
+                            updateQuantity(
+                              item.productId,
+                              finalQuantity
+                            );
 
                             setQuantityInputs((previous) => {
                               const updated = { ...previous };
