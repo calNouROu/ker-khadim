@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -7,14 +8,19 @@ import { supabase } from "@/lib/supabase";
 
 function normalizePhone(value: string) {
   const compact = value.trim().replace(/[\s().-]/g, "");
+
   const international = compact.startsWith("00")
     ? `+${compact.slice(2)}`
     : compact;
-  return /^\+[1-9]\d{7,14}$/.test(international) ? international : null;
+
+  return /^\+[1-9]\d{7,14}$/.test(international)
+    ? international
+    : null;
 }
 
 export default function ConnexionPage() {
   const router = useRouter();
+
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -34,17 +40,27 @@ export default function ConnexionPage() {
     const value = identifier.trim();
     const isEmail = value.includes("@");
     const phone = isEmail ? null : normalizePhone(value);
+
     if (!isEmail && !phone) {
-      setMessage("Saisissez un e-mail valide ou un téléphone au format international (+221…).");
+      setMessage(
+        "Saisissez un e-mail valide ou un téléphone au format international (+221...)."
+      );
       return;
     }
 
     setLoading(true);
+
     try {
       const { error } = await supabase.auth.signInWithPassword(
         isEmail
-          ? { email: value.toLowerCase(), password }
-          : { phone: phone!, password }
+          ? {
+              email: value.toLowerCase(),
+              password,
+            }
+          : {
+              phone: phone!,
+              password,
+            }
       );
 
       if (error) {
@@ -56,7 +72,10 @@ export default function ConnexionPage() {
       router.refresh();
     } catch (error) {
       console.error("La connexion Supabase a échoué.", error);
-      setMessage("Une erreur réseau a empêché la connexion.");
+
+      setMessage(
+        "Une erreur réseau a empêché la connexion."
+      );
     } finally {
       setLoading(false);
     }
@@ -68,22 +87,30 @@ export default function ConnexionPage() {
         onSubmit={handleSubmit}
         className="w-full max-w-md rounded-2xl bg-[#FFFEFA] p-8 shadow-xl"
       >
-        <Link href="/" className="block text-center text-2xl font-bold text-[#101D35]">
+        <Link
+          href="/"
+          className="block text-center text-2xl font-bold text-[#101D35]"
+        >
           KËR KHADIM
         </Link>
+
         <h1 className="mt-3 text-center text-xl font-semibold text-[#263D5B]">
           Connexion à votre compte
         </h1>
 
-        <label htmlFor="identifier" className="mb-2 mt-8 block text-sm font-semibold">
+        <label
+          htmlFor="identifier"
+          className="mb-2 mt-8 block text-sm font-semibold"
+        >
           E-mail ou téléphone
         </label>
+
         <input
           id="identifier"
           type="text"
           autoComplete="username"
           inputMode="text"
-          placeholder="nom@exemple.com ou +221…"
+          placeholder="nom@exemple.com ou +221..."
           required
           value={identifier}
           onChange={(event) => setIdentifier(event.target.value)}
@@ -96,6 +123,7 @@ export default function ConnexionPage() {
         >
           Mot de passe
         </label>
+
         <input
           id="password"
           type="password"
@@ -107,7 +135,10 @@ export default function ConnexionPage() {
         />
 
         {message && (
-          <p role="alert" className="mt-4 text-sm text-red-700">
+          <p
+            role="alert"
+            className="mt-4 text-sm text-red-700"
+          >
             {message}
           </p>
         )}
@@ -122,7 +153,10 @@ export default function ConnexionPage() {
 
         <p className="mt-5 text-center text-sm text-gray-600">
           Pas encore de compte ?{" "}
-          <Link href="/inscription" className="font-semibold text-[#8A6A39] underline">
+          <Link
+            href="/inscription"
+            className="font-semibold text-[#8A6A39] underline"
+          >
             Créer un compte
           </Link>
         </p>
