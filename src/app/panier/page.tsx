@@ -15,6 +15,7 @@ export default function PanierPage() {
     storageError,
     updateQuantity,
     removeItem,
+    clearCart,
   } = useCart();
 
   const [customerName, setCustomerName] = useState("");
@@ -138,15 +139,13 @@ Cordialement.
       const whatsappUrl =
         `https://wa.me/221789846529?text=${encodeURIComponent(whatsappMessage)}`;
 
-      // Ouvrir WhatsApp
+      // Rediriger la fenêtre vers WhatsApp.
       whatsappWindow.location.href = whatsappUrl;
 
-      // Vider tous les articles du panier après le succès Supabase
-      for (const item of [...items]) {
-        removeItem(item.productId);
-      }
+      // Vider entièrement le panier après le succès de l'enregistrement.
+      clearCart();
 
-      // Effacer les quantités temporaires
+      // Effacer les quantités temporaires.
       setQuantityInputs({});
 
       setMessage(
